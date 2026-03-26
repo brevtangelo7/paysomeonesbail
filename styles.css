@@ -2,24 +2,25 @@
    DESIGN TOKENS
    ============================================================ */
 :root {
-  --color-nav:        #7a3328;
-  --color-accent:     #c4796a;
-  --color-accent-dark:#9e5649;
-  --color-bg:         #faf8f5;
-  --color-bg-alt:     #f2ede8;
+  --color-nav:        #1c2020;
+  --color-accent:     #c07840;
+  --color-accent-dark:#9a5e2a;
+  --color-steel:      #6080a0;
+  --color-bg:         #f5f1ea;
+  --color-bg-alt:     #ede8de;
   --color-card:       #ffffff;
-  --color-text:       #2d2926;
-  --color-text-muted: #6b5e58;
-  --color-tag-bg:     #f9e8e6;
-  --color-tag-text:   #7a3328;
-  --color-border:     #e4dbd6;
+  --color-text:       #1c2020;
+  --color-text-muted: #5a5448;
+  --color-tag-bg:     #dce7f0;
+  --color-tag-text:   #1c3048;
+  --color-border:     #e0d8cc;
 
   --font-serif: 'Georgia', 'Times New Roman', serif;
   --font-sans:  system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --radius: 8px;
-  --shadow: 0 2px 12px rgba(45, 41, 38, 0.08);
-  --shadow-hover: 0 6px 24px rgba(45, 41, 38, 0.14);
+  --shadow: 0 2px 12px rgba(28, 32, 32, 0.07);
+  --shadow-hover: 0 6px 24px rgba(28, 32, 32, 0.13);
 
   --nav-height: 60px;
   --max-width: 1100px;
@@ -104,7 +105,7 @@ h1, h2, h3, h4 {
   white-space: nowrap;
   flex-shrink: 0;
 }
-.nav-brand:hover { color: #ffe0d6; }
+.nav-brand:hover { color: rgba(255,255,255,0.75); }
 
 .nav-links {
   display: flex;
@@ -163,7 +164,10 @@ h1, h2, h3, h4 {
    HERO
    ============================================================ */
 .hero {
-  background: linear-gradient(135deg, #5c2219 0%, var(--color-nav) 50%, #8c4438 100%);
+  background:
+    radial-gradient(ellipse 60% 80% at 20% 110%, rgba(192,120,64,0.32) 0%, transparent 55%),
+    radial-gradient(ellipse 35% 45% at 85% 15%, rgba(96,128,160,0.18) 0%, transparent 50%),
+    linear-gradient(168deg, #0e1212 0%, var(--color-nav) 55%, #262c2c 100%);
   color: #fff;
   padding: 5rem 1.5rem 4rem;
   text-align: center;
@@ -234,7 +238,7 @@ h1, h2, h3, h4 {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-accent-dark);
+  color: var(--color-steel);
   margin-bottom: 0.5rem;
 }
 
@@ -365,7 +369,7 @@ h1, h2, h3, h4 {
   width: 100%;
   font-family: var(--font-sans);
 }
-#search-input::placeholder { color: #b0a09a; }
+#search-input::placeholder { color: #a09080; }
 
 .search-clear {
   background: none;
@@ -472,8 +476,8 @@ h1, h2, h3, h4 {
 }
 
 .fund-card[data-url-status="unconfirmed"] {
-  border-color: #e8ddd8;
-  background: #fdfbf9;
+  border-color: #d8d0c4;
+  background: #faf8f4;
 }
 
 .fund-name {
@@ -506,7 +510,7 @@ h1, h2, h3, h4 {
 
 .fund-notice {
   font-size: 0.78rem;
-  color: #a08070;
+  color: #9a9080;
   font-style: italic;
 }
 
