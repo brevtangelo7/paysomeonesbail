@@ -1,7 +1,7 @@
 [
   {
     "name": "Black Immigrants Bail Fund",
-    "description": null,
+    "description": "Provides bond assistance specifically for Black immigrants detained by ICE, addressing the disproportionate targeting and higher bond amounts this community faces.",
     "state": "National",
     "stateAbbr": null,
     "area": null,
@@ -13,7 +13,7 @@
   },
   {
     "name": "LGBTQ Freedom Fund",
-    "description": null,
+    "description": "Posts bond for LGBTQ+ people held in immigration and criminal detention, with a focus on those facing the greatest safety risks inside facilities.",
     "state": "National",
     "stateAbbr": null,
     "area": null,
@@ -24,8 +24,20 @@
     "tags": []
   },
   {
+    "name": "Freedom for Immigrants — National Bond Fund",
+    "description": "A nationwide fund that also operates a free detention visitation network, providing both bond assistance and community accompaniment to detained people.",
+    "state": "National",
+    "stateAbbr": null,
+    "area": null,
+    "website": "https://www.freedomforimmigrants.org/donate",
+    "sourceUrl": null,
+    "phone": null,
+    "email": null,
+    "tags": []
+  },
+  {
     "name": "Pima Monthly Meeting Immigration Bond Fund",
-    "description": null,
+    "description": "A Quaker meeting-based fund providing bond assistance for immigrants detained in the Tucson area.",
     "state": "Arizona",
     "stateAbbr": "AZ",
     "area": null,
@@ -37,7 +49,7 @@
   },
   {
     "name": "CLUE Detained Immigrant Bond Fund",
-    "description": null,
+    "description": "A faith-labor alliance fund providing bond assistance for immigrants detained in Southern California.",
     "state": "California",
     "stateAbbr": "CA",
     "area": "General California Funds",
@@ -49,7 +61,7 @@
   },
   {
     "name": "NorCal Resist Sacramento Region Bond Fund",
-    "description": null,
+    "description": "Posts immigration bonds for people detained in the Sacramento region, part of a broader resistance and rapid response network.",
     "state": "California",
     "stateAbbr": "CA",
     "area": "General California Funds",
@@ -61,7 +73,7 @@
   },
   {
     "name": "Orange County Justice Fund",
-    "description": null,
+    "description": "Provides bond assistance for immigrants detained in Orange County, California.",
     "state": "California",
     "stateAbbr": "CA",
     "area": "Orange County",
@@ -73,7 +85,7 @@
   },
   {
     "name": "Long Beach Justice Fund",
-    "description": null,
+    "description": "A community fund providing immigration bond assistance for people detained from the Long Beach area.",
     "state": "California",
     "stateAbbr": "CA",
     "area": "City of Long Beach Residents",
@@ -85,7 +97,7 @@
   },
   {
     "name": "Familias Reunidas Immigration Bond Fund",
-    "description": null,
+    "description": "Works to reunite families separated by immigration detention through bond assistance.",
     "state": "California",
     "stateAbbr": "CA",
     "area": "Detained in Otay Mesa Detention Center or Imperial Regional Detention Facility",
@@ -97,7 +109,7 @@
   },
   {
     "name": "San Diego IRC — Borderlands Get Free Fund",
-    "description": null,
+    "description": "A border-region fund run by the San Diego Immigrant Rights Consortium focused on freeing people detained in the San Diego / Imperial Valley area.",
     "state": "California",
     "stateAbbr": "CA",
     "area": "Detained in Otay Mesa Detention Center or Imperial Regional Detention Facility or San Diego area or Imperial County residents",
@@ -109,7 +121,7 @@
   },
   {
     "name": "Immigrant Freedom Fund",
-    "description": null,
+    "description": "Posts immigration bonds for people detained at the Aurora ICE Processing Center, one of the largest immigration detention facilities in the country.",
     "state": "Colorado",
     "stateAbbr": "CO",
     "area": null,
@@ -121,7 +133,7 @@
   },
   {
     "name": "Georgia Immigration Bond Fund",
-    "description": null,
+    "description": "Provides bond assistance for immigrants detained in Georgia, which hosts several major ICE detention facilities.",
     "state": "Georgia",
     "stateAbbr": "GA",
     "area": null,
@@ -133,7 +145,7 @@
   },
   {
     "name": "Midwest Immigration Bond Fund",
-    "description": null,
+    "description": "A revolving bond fund serving detained immigrants across Illinois, Indiana, Kentucky, Minnesota, and Wisconsin through community fundraising and advocacy.",
     "state": "Illinois",
     "stateAbbr": "IL",
     "area": "Serves IL, IN, KY, MN, WI",
@@ -145,7 +157,7 @@
   },
   {
     "name": "Prairielands Freedom Fund",
-    "description": null,
+    "description": "Provides immigration bond assistance for people detained in Iowa and the surrounding prairieland region.",
     "state": "Iowa",
     "stateAbbr": "IA",
     "area": null,
@@ -156,8 +168,44 @@
     "tags": []
   },
   {
+    "name": "Connecticut Bail Fund",
+    "description": "Provides bond assistance for immigrants detained in Connecticut.",
+    "state": "Connecticut",
+    "stateAbbr": "CT",
+    "area": null,
+    "website": "https://ctbailfund.org/services/community-programs/immigrant-bail-fund-150435311",
+    "sourceUrl": null,
+    "phone": null,
+    "email": null,
+    "tags": []
+  },
+  {
+    "name": "Immigrant Bail Fund",
+    "description": "A Connecticut-based revolving fund that posts immigration bonds and advocates for fair and humane immigration court practices.",
+    "state": "Connecticut",
+    "stateAbbr": "CT",
+    "area": null,
+    "website": "https://www.immigrantbailfund.org",
+    "sourceUrl": null,
+    "phone": null,
+    "email": null,
+    "tags": []
+  },
+  {
+    "name": "Mainers for Humane Immigration — Freedom Fund",
+    "description": "Posts immigration bonds for people detained in Maine, run by a coalition advocating for more humane immigration enforcement practices.",
+    "state": "Maine",
+    "stateAbbr": "ME",
+    "area": null,
+    "website": "https://www.mainersforhumaneimmigration.org/freedom-fund",
+    "sourceUrl": null,
+    "phone": null,
+    "email": null,
+    "tags": []
+  },
+  {
     "name": "Beyond Bail & Legal Defense Fund",
-    "description": null,
+    "description": "Provides both bond assistance and legal defense support for immigrants detained in Massachusetts.",
     "state": "Massachusetts",
     "stateAbbr": "MA",
     "area": null,
@@ -169,7 +217,7 @@
   },
   {
     "name": "Kent County Immigration Bond for Our Neighbor's Defense Fund",
-    "description": null,
+    "description": "A community-based fund providing bond assistance for immigrants detained in the Kent County / Grand Rapids, Michigan area.",
     "state": "Michigan",
     "stateAbbr": "MI",
     "area": null,
@@ -181,7 +229,7 @@
   },
   {
     "name": "Las Vegas Family Unity Bond Fund",
-    "description": null,
+    "description": "Provides bond assistance for immigrants detained in the Las Vegas area to help families stay together.",
     "state": "Nevada",
     "stateAbbr": "NV",
     "area": null,
@@ -193,7 +241,7 @@
   },
   {
     "name": "NH Conference UCC — Immigrant & Refugee Support Bond Fund",
-    "description": null,
+    "description": "A United Church of Christ-affiliated group providing bond and support services for immigrants and refugees in New Hampshire.",
     "state": "New Hampshire",
     "stateAbbr": "NH",
     "area": null,
@@ -205,7 +253,7 @@
   },
   {
     "name": "First Friends of NJ & NY Bond Fund",
-    "description": null,
+    "description": "A Quaker visitation and bond assistance organization serving immigrants detained in New Jersey and New York detention facilities.",
     "state": "New Jersey",
     "stateAbbr": "NJ",
     "area": null,
@@ -217,7 +265,7 @@
   },
   {
     "name": "The Fronterizx Fianza Fund",
-    "description": null,
+    "description": "A border-region fund serving immigrants detained along the New Mexico and Texas border corridor.",
     "state": "New Mexico",
     "stateAbbr": "NM",
     "area": null,
@@ -229,7 +277,7 @@
   },
   {
     "name": "Envision Freedom Fund",
-    "description": null,
+    "description": "Provides bond assistance for immigrants detained in New York, with a focus on community-led organizing and rapid response.",
     "state": "New York",
     "stateAbbr": "NY",
     "area": null,
@@ -241,7 +289,7 @@
   },
   {
     "name": "Community Fund for Bond and Legal Support",
-    "description": null,
+    "description": "Provides both bond assistance and funding for legal support for immigrants detained in Pennsylvania.",
     "state": "Pennsylvania",
     "stateAbbr": "PA",
     "area": null,
@@ -253,7 +301,7 @@
   },
   {
     "name": "Immigration Bond and Advocacy Effort",
-    "description": null,
+    "description": "A Pennsylvania-based effort combining bond posting with community advocacy on behalf of detained immigrants.",
     "state": "Pennsylvania",
     "stateAbbr": "PA",
     "area": null,
@@ -265,7 +313,7 @@
   },
   {
     "name": "AMOR Bond Fund",
-    "description": null,
+    "description": "Provides bond assistance for immigrants detained in Rhode Island.",
     "state": "Rhode Island",
     "stateAbbr": "RI",
     "area": null,
@@ -277,7 +325,7 @@
   },
   {
     "name": "Hutto Community Deportation Defense & Bond Fund",
-    "description": null,
+    "description": "Focused on supporting immigrants detained at the T. Don Hutto Residential Center in Taylor, Texas — a facility that has detained women and families.",
     "state": "Texas",
     "stateAbbr": "TX",
     "area": "Austin area (Hutto)",
@@ -288,8 +336,20 @@
     "tags": []
   },
   {
+    "name": "RAICES Bond Program",
+    "description": "RAICES (Refugee and Immigrant Center for Education and Legal Services) operates a bond program alongside its legal services work, one of the largest immigrant legal aid organizations in the country.",
+    "state": "Texas",
+    "stateAbbr": "TX",
+    "area": null,
+    "website": "https://www.raicestexas.org/bond",
+    "sourceUrl": null,
+    "phone": null,
+    "email": null,
+    "tags": []
+  },
+  {
     "name": "Vermont Freedom Fund",
-    "description": null,
+    "description": "Posts immigration bonds for people detained in Vermont.",
     "state": "Vermont",
     "stateAbbr": "VT",
     "area": null,
@@ -301,7 +361,7 @@
   },
   {
     "name": "Central Virginia Community Support Fund",
-    "description": null,
+    "description": "A community-driven fund supporting immigrants detained in Central Virginia with bond assistance and community resources.",
     "state": "Virginia",
     "stateAbbr": "VA",
     "area": null,
@@ -313,7 +373,7 @@
   },
   {
     "name": "Fair Fight Immigrant Bond Fund",
-    "description": null,
+    "description": "Provides bond assistance for immigrants detained in Washington state.",
     "state": "Washington",
     "stateAbbr": "WA",
     "area": null,

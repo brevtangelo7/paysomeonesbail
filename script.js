@@ -39,6 +39,8 @@
     'Kentucky':      'midwest',
     'Michigan':      'midwest',
     'Wisconsin':     'midwest',
+    'Connecticut':   'northeast',
+    'Maine':         'northeast',
     'Massachusetts': 'northeast',
     'New Hampshire': 'northeast',
     'New Jersey':    'northeast',
