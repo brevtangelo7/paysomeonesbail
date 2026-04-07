@@ -551,17 +551,34 @@ h1, h2, h3, h4 {
   letter-spacing: -0.01em;
 }
 
+.fund-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
 .fund-tag {
   display: inline-block;
-  background: var(--color-tag-bg);
-  color: var(--color-tag-text);
+  background: #efefef;
+  color: #888;
   font-size: 0.65rem;
+  flex-shrink: 0;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.22rem 0.6rem;
   border-radius: 50px;
   width: fit-content;
+}
+
+.fund-desc-link {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.fund-desc-link:hover {
+  color: #000;
 }
 
 .fund-desc {
@@ -606,12 +623,6 @@ h1, h2, h3, h4 {
 }
 .btn-donate:hover { background: var(--color-accent-dark); color: #fff; }
 
-.btn-learn {
-  background: transparent;
-  color: #000;
-  border: 2px solid #000;
-}
-.btn-learn:hover { background: #000; color: #fff; }
 
 .btn-search {
   background: #f0f0f0;
@@ -874,6 +885,7 @@ h1, h2, h3, h4 {
 #fund-map svg { width: 100%; height: auto; display: block; }
 
 #fund-map path {
+  outline: none;
   fill: #e8e8e8;
   stroke: #c8c8c8;
   stroke-width: 0.5;
@@ -918,10 +930,6 @@ h1, h2, h3, h4 {
 }
 .state-fund-card:hover { background: #fafafa; }
 
-.btn-donate-sm { background: var(--color-accent); color: #fff; font-size: 0.7rem; padding: 0.42rem 0.9rem; }
-.btn-donate-sm:hover { background: var(--color-accent-dark); color: #fff; }
-.btn-learn-sm { background: transparent; color: #000; border: 2px solid #000; font-size: 0.7rem; padding: 0.42rem 0.9rem; }
-.btn-learn-sm:hover { background: #000; color: #fff; }
 .btn-search-sm { background: #f0f0f0; color: #555; border: 1px solid var(--color-border); font-size: 0.7rem; font-weight: 700; padding: 0.42rem 0.9rem; }
 .btn-search-sm:hover { background: #e0e0e0; color: #000; }
 

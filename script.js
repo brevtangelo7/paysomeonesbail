@@ -89,24 +89,29 @@
     if (fund.website) {
       const url = esc(fund.website);
       actionsHtml =
-        `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate Now</a>` +
-        `<a href="${url}" class="btn btn-learn" target="_blank" rel="noopener noreferrer">Learn More</a>`;
+        `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate Now</a>`;
     } else {
       const q = encodeURIComponent((fund.name || '') + ' immigration bond fund');
       actionsHtml =
         `<a href="https://www.google.com/search?q=${q}" class="btn btn-search" target="_blank" rel="noopener noreferrer">Search Online</a>`;
     }
 
+    const visitLink = fund.website
+      ? ` <a href="${esc(fund.website)}" class="fund-desc-link" target="_blank" rel="noopener noreferrer">Visit site &rarr;</a>`
+      : '';
+
     const descHtml = fund.description
-      ? `<p class="fund-desc">${esc(fund.description)}</p>` : '';
+      ? `<p class="fund-desc">${esc(fund.description)}${visitLink}</p>` : '';
 
     return (
       `<article class="fund-card"` +
       ` data-name="${esc(fund.name)}"` +
       ` data-state="${esc(stateLower)}"` +
       ` data-url-status="${fund.website ? 'confirmed' : 'unconfirmed'}">` +
+      `<div class="fund-card-header">` +
       `<div class="fund-name">${esc(fund.name)}</div>` +
       `<span class="fund-tag">${esc(tagLabel)}</span>` +
+      `</div>` +
       descHtml +
       `<div class="fund-actions">${actionsHtml}</div>` +
       `</article>`
@@ -205,28 +210,34 @@
       const coverage = fund.area ? fund.state + ' \u2014 ' + fund.area
                      : fund.state === 'National' ? 'Nationwide' : fund.state;
       const url = fund.website ? esc(fund.website) : null;
+      const visitLink = url
+        ? ` <a href="${url}" class="fund-desc-link" target="_blank" rel="noopener noreferrer">Visit site &rarr;</a>`
+        : '';
       const actions = url
-        ? `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate</a>` +
-          `<a href="${url}" class="btn btn-learn" target="_blank" rel="noopener noreferrer">Get help / request bail assistance</a>`
+        ? `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate</a>`
         : `<a href="https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}" class="btn btn-search" target="_blank" rel="noopener noreferrer">Search online</a>`;
       return `<div class="qm-fund-name">${esc(fund.name)}</div>` +
         `<span class="qm-fund-tag">${esc(coverage)}</span>` +
-        (fund.description ? `<p class="qm-fund-desc">${esc(fund.description)}</p>` : '') +
+        (fund.description ? `<p class="qm-fund-desc">${esc(fund.description)}${visitLink}</p>` : '') +
         `<div class="qm-fund-actions">${actions}</div>`;
     }
 
     // Card for Map result panel
     function buildStateFundCard(fund) {
-      const coverage = fund.area ? fund.area : fund.state;
+      const tagLabel = fund.stateAbbr || fund.state || '';
       const url = fund.website ? esc(fund.website) : null;
+      const visitLink = url
+        ? ` <a href="${url}" class="fund-desc-link" target="_blank" rel="noopener noreferrer">Visit site &rarr;</a>`
+        : '';
       const actions = url
-        ? `<a href="${url}" class="btn btn-donate-sm btn" target="_blank" rel="noopener noreferrer">Donate</a>` +
-          `<a href="${url}" class="btn btn-learn-sm btn" target="_blank" rel="noopener noreferrer">Get help</a>`
-        : `<a href="https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}" class="btn btn-search-sm btn" target="_blank" rel="noopener noreferrer">Search online</a>`;
+        ? `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate</a>`
+        : `<a href="https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}" class="btn btn-search" target="_blank" rel="noopener noreferrer">Search online</a>`;
       return `<div class="state-fund-card">` +
+        `<div class="fund-card-header">` +
         `<div class="fund-name">${esc(fund.name)}</div>` +
-        (fund.area ? `<span class="fund-tag">${esc(coverage)}</span>` : '') +
-        (fund.description ? `<p class="fund-desc">${esc(fund.description)}</p>` : '') +
+        `<span class="fund-tag">${esc(tagLabel)}</span>` +
+        `</div>` +
+        (fund.description ? `<p class="fund-desc">${esc(fund.description)}${visitLink}</p>` : '') +
         `<div class="fund-actions">${actions}</div>` +
         `</div>`;
     }
