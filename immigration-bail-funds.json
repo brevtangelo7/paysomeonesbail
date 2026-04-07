@@ -148,6 +148,8 @@
     "description": "A revolving bond fund serving detained immigrants across Illinois, Indiana, Kentucky, Minnesota, and Wisconsin through community fundraising and advocacy.",
     "state": "Illinois",
     "stateAbbr": "IL",
+    "states": ["IL", "IN", "KY", "MN", "WI"],
+    "stateNames": "Illinois Indiana Kentucky Minnesota Wisconsin",
     "area": "Serves IL, IN, KY, MN, WI",
     "website": "https://www.mibfc.org",
     "sourceUrl": "https://www.communityjusticeexchange.org/en/immigration-directory",

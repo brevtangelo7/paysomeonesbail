@@ -53,6 +53,22 @@
     'Texas':         'southwest',
   };
 
+  const ABBR_TO_NAME = {
+    AL:'Alabama', AK:'Alaska', AZ:'Arizona', AR:'Arkansas',
+    CA:'California', CO:'Colorado', CT:'Connecticut', DE:'Delaware',
+    FL:'Florida', GA:'Georgia', HI:'Hawaii', ID:'Idaho',
+    IL:'Illinois', IN:'Indiana', IA:'Iowa', KS:'Kansas',
+    KY:'Kentucky', LA:'Louisiana', ME:'Maine', MD:'Maryland',
+    MA:'Massachusetts', MI:'Michigan', MN:'Minnesota', MS:'Mississippi',
+    MO:'Missouri', MT:'Montana', NE:'Nebraska', NV:'Nevada',
+    NH:'New Hampshire', NJ:'New Jersey', NM:'New Mexico', NY:'New York',
+    NC:'North Carolina', ND:'North Dakota', OH:'Ohio', OK:'Oklahoma',
+    OR:'Oregon', PA:'Pennsylvania', RI:'Rhode Island', SC:'South Carolina',
+    SD:'South Dakota', TN:'Tennessee', TX:'Texas', UT:'Utah',
+    VT:'Vermont', VA:'Virginia', WA:'Washington', WV:'West Virginia',
+    WI:'Wisconsin', WY:'Wyoming', DC:'District of Columbia',
+  };
+
   /* ----------------------------------------------------------
      FUND DIRECTORY — HTML rendering helpers
      ---------------------------------------------------------- */
@@ -66,7 +82,7 @@
   }
 
   function buildFundCard(fund) {
-    const stateLower = (fund.state || '').toLowerCase();
+    const stateLower = (fund.stateNames || fund.state || '').toLowerCase();
     const tagLabel   = fund.stateAbbr || fund.state || '';
 
     let actionsHtml;
@@ -165,8 +181,10 @@
     const nationalFunds = [];
     funds.forEach(f => {
       if (f.state === 'National') { nationalFunds.push(f); return; }
-      if (!f.stateAbbr) return;
-      (byAbbr[f.stateAbbr] = byAbbr[f.stateAbbr] || []).push(f);
+      const abbrs = f.states || (f.stateAbbr ? [f.stateAbbr] : []);
+      abbrs.forEach(abbr => {
+        (byAbbr[abbr] = byAbbr[abbr] || []).push(f);
+      });
     });
 
     // Cycling pools (scoped to finder, avoids name collision with future pools)
@@ -296,7 +314,7 @@
           const abbr = path.id.slice(3);
           const stateFunds = byAbbr[abbr] || [];
           const hasFunds = stateFunds.length > 0;
-          const stateName = hasFunds ? stateFunds[0].state : abbr;
+          const stateName = ABBR_TO_NAME[abbr] || abbr;
 
           if (hasFunds) {
             path.classList.add('map-state--has-funds');
