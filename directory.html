@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A searchable directory of non-profit ICE bond funds across the United States, organized by region and state." />
+  <title>Directory — Pay Someone's Bail</title>
+  <link rel="stylesheet" href="styles.css?v=2" />
+</head>
+<body>
+
+  <a class="skip-link" href="#directory">Skip to directory</a>
+
+  <nav class="site-nav" aria-label="Site navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Pay Someone's Bail</a>
+
+      <button
+        class="hamburger"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="nav-links"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="directory.html">Directory</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="directory" aria-labelledby="directory-heading">
+    <div class="directory-inner">
+
+      <div class="directory-header">
+        <p class="section-label">Find a Fund</p>
+        <h2 id="directory-heading">ICE Bond Fund Directory</h2>
+        <p>
+          Organizations are grouped by region and state. Search by name or state to filter.
+          Funds marked <em>"URL not confirmed"</em> are listed from primary sources but we could not verify
+          a current website — check back or search online to find their current donation page.
+        </p>
+      </div>
+
+      <div class="search-wrap" role="search">
+        <span class="search-icon" aria-hidden="true">&#128269;</span>
+        <label for="search-input" class="sr-only">Search ICE bond funds by name or state</label>
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search by name or state…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button class="search-clear" id="search-clear" aria-label="Clear search" tabindex="-1">&times;</button>
+      </div>
+
+      <p id="no-results" role="status" aria-live="polite">
+        No funds matched your search. Try a different name or state.
+      </p>
+
+      <div id="fund-directory-root"></div>
+
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Pay Someone's Bail</div>
+        <p class="footer-text">
+          An independent directory of non-profit ICE bond funds across the United States.
+        </p>
+        <p class="footer-text">
+          <strong>Disclaimer:</strong> This site is an independent directory. We are not affiliated with,
+          endorsed by, or responsible for any of the listed organizations. Please verify a fund's current
+          activity and legitimacy before donating.
+        </p>
+        <p class="footer-text">
+          Source data: <a href="https://www.communityjusticeexchange.org" target="_blank" rel="noopener noreferrer">Community Justice Exchange</a> — National Bond Fund Network Directory
+        </p>
+        <p class="footer-text">
+          Questions or corrections: <a href="mailto:contact@paysomeonesbail.com">contact@paysomeonesbail.com</a>
+        </p>
+      </div>
+      <div class="footer-meta">
+        <p>Last updated: March 2026</p>
+        <p>Built with plain HTML, CSS &amp; JS.</p>
+        <p>Hosted on <a href="https://pages.github.com" target="_blank" rel="noopener noreferrer">GitHub Pages</a>.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" aria-label="Back to top" title="Back to top">&#8679;</button>
+
+  <script src="script.js"></script>
+</body>
+</html>

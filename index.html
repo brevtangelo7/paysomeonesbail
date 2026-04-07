@@ -9,14 +9,14 @@
 </head>
 <body>
 
-  <a class="skip-link" href="#directory">Skip to directory</a>
+  <a class="skip-link" href="#finder">Skip to fund finder</a>
 
   <!-- ============================================================
        NAV
        ============================================================ -->
   <nav class="site-nav" aria-label="Site navigation">
     <div class="nav-inner">
-      <a href="#" class="nav-brand">Pay Someone's Bail</a>
+      <a href="index.html" class="nav-brand">Pay Someone's Bail</a>
 
       <button
         class="hamburger"
@@ -30,16 +30,9 @@
       </button>
 
       <ul class="nav-links" id="nav-links" role="list">
-        <li><a href="#about">About</a></li>
-        <li><a href="#why-donate">Why Donate</a></li>
-        <li><a href="#finder">Find a Fund</a></li>
-        <li><a href="#directory">Directory</a></li>
-        <li><a href="#national">National</a></li>
-        <li><a href="#west">West</a></li>
-        <li><a href="#midwest">Midwest</a></li>
-        <li><a href="#northeast">Northeast</a></li>
-        <li><a href="#southeast">Southeast</a></li>
-        <li><a href="#southwest">Southwest</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="directory.html">Directory</a></li>
       </ul>
     </div>
   </nav>
@@ -220,47 +213,8 @@
         </div>
       </div>
 
-      <p class="map-see-all"><a href="#directory">See full searchable list &#8595;</a></p>
+      <p class="map-see-all"><a href="directory.html">See full searchable list &rarr;</a></p>
     </div>
-  </section>
-
-  <!-- ============================================================
-       DIRECTORY
-       ============================================================ -->
-  <section id="directory" aria-labelledby="directory-heading">
-    <div class="directory-inner">
-
-      <div class="directory-header">
-        <p class="section-label">Find a Fund</p>
-        <h2 id="directory-heading">ICE Bond Fund Directory</h2>
-        <p>
-          Organizations are grouped by region and state. Search by name or state to filter.
-          Funds marked <em>"URL not confirmed"</em> are listed from primary sources but we could not verify
-          a current website — check back or search online to find their current donation page.
-        </p>
-      </div>
-
-      <!-- Search -->
-      <div class="search-wrap" role="search">
-        <span class="search-icon" aria-hidden="true">&#128269;</span>
-        <label for="search-input" class="sr-only">Search ICE bond funds by name or state</label>
-        <input
-          type="search"
-          id="search-input"
-          placeholder="Search by name or state…"
-          autocomplete="off"
-          spellcheck="false"
-        />
-        <button class="search-clear" id="search-clear" aria-label="Clear search" tabindex="-1">&times;</button>
-      </div>
-
-      <p id="no-results" role="status" aria-live="polite">
-        No funds matched your search. Try a different name or state.
-      </p>
-
-      <div id="fund-directory-root"></div>
-
-    </div><!-- /directory-inner -->
   </section>
 
   <!-- ============================================================

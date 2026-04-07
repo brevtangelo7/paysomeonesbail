@@ -347,7 +347,6 @@
 
   async function loadFunds() {
     const root = document.getElementById('fund-directory-root');
-    if (!root) return;
 
     try {
       const resp = await fetch('immigration-bail-funds.json');
@@ -357,7 +356,7 @@
       initFinder(funds);
     } catch (err) {
       console.error('Failed to load fund directory:', err);
-      root.innerHTML =
+      if (root) root.innerHTML =
         '<p style="text-align:center;padding:2rem 1rem;color:#666">' +
         'Unable to load fund directory. Please refresh the page.</p>';
     }
