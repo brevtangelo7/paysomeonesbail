@@ -12,18 +12,6 @@
     "tags": []
   },
   {
-    "name": "LGBTQ Freedom Fund",
-    "description": "Posts bond for LGBTQ+ people held in immigration and criminal detention, with a focus on those facing the greatest safety risks inside facilities.",
-    "state": "National",
-    "stateAbbr": null,
-    "area": null,
-    "website": "https://www.lgbtqfund.org/",
-    "sourceUrl": "https://www.communityjusticeexchange.org/en/immigration-directory",
-    "phone": null,
-    "email": null,
-    "tags": []
-  },
-  {
     "name": "Freedom for Immigrants — National Bond Fund",
     "description": "A nationwide fund that also operates a free detention visitation network, providing both bond assistance and community accompaniment to detained people.",
     "state": "National",
@@ -31,6 +19,19 @@
     "area": null,
     "website": "https://www.freedomforimmigrants.org/donate",
     "sourceUrl": null,
+    "phone": null,
+    "email": null,
+    "directDonate": false,
+    "tags": []
+  },
+  {
+    "name": "LGBTQ Freedom Fund",
+    "description": "Posts bond for LGBTQ+ people held in immigration and criminal detention, with a focus on those facing the greatest safety risks inside facilities.",
+    "state": "National",
+    "stateAbbr": null,
+    "area": null,
+    "website": "https://www.lgbtqfund.org/",
+    "sourceUrl": "https://www.communityjusticeexchange.org/en/immigration-directory",
     "phone": null,
     "email": null,
     "tags": []
@@ -81,6 +82,7 @@
     "sourceUrl": "https://www.communityjusticeexchange.org/en/immigration-directory",
     "phone": null,
     "email": null,
+    "directDonate": false,
     "tags": []
   },
   {
@@ -93,6 +95,7 @@
     "sourceUrl": "https://www.communityjusticeexchange.org/en/immigration-directory",
     "phone": null,
     "email": null,
+    "directDonate": false,
     "tags": []
   },
   {
@@ -191,6 +194,7 @@
     "sourceUrl": null,
     "phone": null,
     "email": null,
+    "directDonate": false,
     "tags": []
   },
   {
@@ -287,6 +291,7 @@
     "sourceUrl": "https://www.communityjusticeexchange.org/en/immigration-directory",
     "phone": null,
     "email": null,
+    "directDonate": false,
     "tags": []
   },
   {
@@ -299,6 +304,7 @@
     "sourceUrl": "https://www.communityjusticeexchange.org/en/immigration-directory",
     "phone": null,
     "email": null,
+    "directDonate": false,
     "tags": []
   },
   {
@@ -335,6 +341,7 @@
     "sourceUrl": "https://www.communityjusticeexchange.org/en/immigration-directory",
     "phone": null,
     "email": null,
+    "directDonate": false,
     "tags": []
   },
   {
@@ -347,6 +354,7 @@
     "sourceUrl": null,
     "phone": null,
     "email": null,
+    "directDonate": false,
     "tags": []
   },
   {
@@ -359,6 +367,7 @@
     "sourceUrl": "https://www.communityjusticeexchange.org/en/immigration-directory",
     "phone": null,
     "email": null,
+    "directDonate": false,
     "tags": []
   },
   {
@@ -371,6 +380,7 @@
     "sourceUrl": "https://www.communityjusticeexchange.org/en/immigration-directory",
     "phone": null,
     "email": null,
+    "directDonate": false,
     "tags": []
   },
   {

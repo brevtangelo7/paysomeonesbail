@@ -348,6 +348,14 @@
             path.classList.add('map-state--no-funds');
           }
         });
+
+        // Default: select California on load
+        const caPath = mapEl.querySelector('path#US-CA');
+        if (caPath) {
+          selectedAbbr = 'CA';
+          caPath.classList.add('map-state--selected');
+          showStateFunds('CA', 'California');
+        }
       })
       .catch(err => console.error('Failed to load map SVG:', err));
   }
@@ -364,7 +372,7 @@
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const funds = await resp.json();
       renderDirectory(funds);
-      initFinder(funds);
+      initFinder(funds.filter(f => f.directDonate !== false));
     } catch (err) {
       console.error('Failed to load fund directory:', err);
       if (root) root.innerHTML =

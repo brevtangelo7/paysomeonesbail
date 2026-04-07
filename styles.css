@@ -3,8 +3,8 @@
    ============================================================ */
 :root {
   --color-nav:        #000000;
-  --color-accent:     #ff5500;
-  --color-accent-dark:#cc4400;
+  --color-accent:     #3cb54a;
+  --color-accent-dark:#2a9438;
   --color-bg:         #ffffff;
   --color-bg-alt:     #f5f5f5;
   --color-bg-grid:    #ffffff;
@@ -893,7 +893,7 @@ h1, h2, h3, h4 {
 }
 .map-state--has-funds { cursor: pointer; }
 .map-state--has-funds:hover { stroke: #555 !important; stroke-width: 1.5 !important; }
-.map-state--selected { fill: var(--color-accent) !important; stroke: #cc3300 !important; stroke-width: 0.75 !important; }
+.map-state--selected { fill: var(--color-accent) !important; stroke: #2a9438 !important; stroke-width: 0.75 !important; }
 .map-state--no-funds { fill: #f2f2f2 !important; stroke: #ddd !important; cursor: default; opacity: 0.6; }
 
 .map-legend {
