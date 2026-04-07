@@ -156,6 +156,174 @@
   }
 
   /* ----------------------------------------------------------
+     FINDER — Quick Match + Map Directory
+     ---------------------------------------------------------- */
+
+  function initFinder(funds) {
+    // Build lookups
+    const byAbbr = {};
+    const nationalFunds = [];
+    funds.forEach(f => {
+      if (f.state === 'National') { nationalFunds.push(f); return; }
+      if (!f.stateAbbr) return;
+      (byAbbr[f.stateAbbr] = byAbbr[f.stateAbbr] || []).push(f);
+    });
+
+    // Cycling pools (scoped to finder, avoids name collision with future pools)
+    const finderPools = {};
+    function getFinderPool(id, source) {
+      if (!finderPools[id]) finderPools[id] = { items: [...source].sort(() => Math.random() - 0.5), idx: 0 };
+      return finderPools[id];
+    }
+    function advanceFinderPool(id) {
+      const p = finderPools[id];
+      if (!p) return null;
+      p.idx = (p.idx + 1) % p.items.length;
+      return p.items[p.idx];
+    }
+
+    // Card for Quick Match slot
+    function buildQmCard(fund) {
+      const coverage = fund.area ? fund.state + ' \u2014 ' + fund.area
+                     : fund.state === 'National' ? 'Nationwide' : fund.state;
+      const url = fund.website ? esc(fund.website) : null;
+      const actions = url
+        ? `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate</a>` +
+          `<a href="${url}" class="btn btn-learn" target="_blank" rel="noopener noreferrer">Get help / request bail assistance</a>`
+        : `<a href="https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}" class="btn btn-search" target="_blank" rel="noopener noreferrer">Search online</a>`;
+      return `<div class="qm-fund-name">${esc(fund.name)}</div>` +
+        `<span class="qm-fund-tag">${esc(coverage)}</span>` +
+        (fund.description ? `<p class="qm-fund-desc">${esc(fund.description)}</p>` : '') +
+        `<div class="qm-fund-actions">${actions}</div>`;
+    }
+
+    // Card for Map result panel
+    function buildStateFundCard(fund) {
+      const coverage = fund.area ? fund.area : fund.state;
+      const url = fund.website ? esc(fund.website) : null;
+      const actions = url
+        ? `<a href="${url}" class="btn btn-donate-sm btn" target="_blank" rel="noopener noreferrer">Donate</a>` +
+          `<a href="${url}" class="btn btn-learn-sm btn" target="_blank" rel="noopener noreferrer">Get help</a>`
+        : `<a href="https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}" class="btn btn-search-sm btn" target="_blank" rel="noopener noreferrer">Search online</a>`;
+      return `<div class="state-fund-card">` +
+        `<div class="fund-name">${esc(fund.name)}</div>` +
+        (fund.area ? `<span class="fund-tag">${esc(coverage)}</span>` : '') +
+        (fund.description ? `<p class="fund-desc">${esc(fund.description)}</p>` : '') +
+        `<div class="fund-actions">${actions}</div>` +
+        `</div>`;
+    }
+
+    /* ── Quick Match ── */
+    const btnRandom       = document.getElementById('btn-random');
+    const btnTexas        = document.getElementById('btn-texas');
+    const resultRandom    = document.getElementById('qm-result-random');
+    const resultTexas     = document.getElementById('qm-result-texas');
+    const cardRandom      = document.getElementById('qm-card-random');
+    const cardTexas       = document.getElementById('qm-card-texas');
+    const pickAnotherRand = document.getElementById('btn-pick-another-random');
+    const pickAnotherTex  = document.getElementById('btn-pick-another-texas');
+    let randomPicked = false;
+
+    if (btnRandom) {
+      btnRandom.addEventListener('click', () => {
+        if (resultTexas) resultTexas.classList.remove('visible');
+        const pool = getFinderPool('qm-random', funds);
+        if (!randomPicked) {
+          randomPicked = true;
+          btnRandom.innerHTML = '&#x1F3B2; Pick another';
+          cardRandom.innerHTML = buildQmCard(pool.items[pool.idx]);
+        } else {
+          const next = advanceFinderPool('qm-random');
+          if (next) cardRandom.innerHTML = buildQmCard(next);
+        }
+        if (resultRandom) resultRandom.classList.add('visible');
+      });
+    }
+
+    if (pickAnotherRand) {
+      pickAnotherRand.addEventListener('click', () => {
+        const next = advanceFinderPool('qm-random');
+        if (next) cardRandom.innerHTML = buildQmCard(next);
+      });
+    }
+
+    if (btnTexas) {
+      btnTexas.addEventListener('click', () => {
+        if (resultRandom) resultRandom.classList.remove('visible');
+        const txFunds = byAbbr['TX'] || [];
+        if (!txFunds.length) return;
+        const pool = getFinderPool('qm-texas', txFunds);
+        cardTexas.innerHTML = buildQmCard(pool.items[pool.idx]);
+        if (resultTexas) resultTexas.classList.add('visible');
+      });
+    }
+
+    if (pickAnotherTex) {
+      pickAnotherTex.addEventListener('click', () => {
+        const next = advanceFinderPool('qm-texas');
+        if (next) cardTexas.innerHTML = buildQmCard(next);
+      });
+    }
+
+    /* ── Map Directory ── */
+    const mapEl = document.getElementById('fund-map');
+    if (!mapEl) return;
+
+    function showStateFunds(abbr, stateName) {
+      const panel = document.getElementById('map-result-panel');
+      if (!panel) return;
+      const stateFunds = byAbbr[abbr] || [];
+      if (!stateFunds.length) {
+        const pool = getFinderPool('map-national', nationalFunds);
+        panel.innerHTML =
+          `<div class="state-result-heading">${esc(stateName)} &mdash; no specific fund</div>` +
+          `<p style="font-size:0.85rem;color:var(--color-text-muted);margin-bottom:1rem">No fund is specifically listed for ${esc(stateName)}. Here\u2019s a national fund that may be able to help:</p>` +
+          `<div class="state-fund-list">${buildStateFundCard(pool.items[pool.idx])}</div>`;
+        return;
+      }
+      panel.innerHTML =
+        `<div class="state-result-heading">${esc(stateName)} &mdash; ${stateFunds.length} fund${stateFunds.length !== 1 ? 's' : ''}</div>` +
+        `<div class="state-fund-list">${stateFunds.map(buildStateFundCard).join('')}</div>`;
+    }
+
+    fetch('usa.svg')
+      .then(r => r.text())
+      .then(raw => {
+        mapEl.innerHTML = raw.replace(/<\?xml[^>]*\?>/g, '');
+        let selectedAbbr = null;
+
+        mapEl.querySelectorAll('path[id^="US-"]').forEach(path => {
+          const abbr = path.id.slice(3);
+          const stateFunds = byAbbr[abbr] || [];
+          const hasFunds = stateFunds.length > 0;
+          const stateName = hasFunds ? stateFunds[0].state : abbr;
+
+          if (hasFunds) {
+            path.classList.add('map-state--has-funds');
+            path.setAttribute('tabindex', '0');
+            path.setAttribute('role', 'button');
+            path.setAttribute('aria-label', 'Find funds in ' + stateName);
+
+            path.addEventListener('click', () => {
+              if (selectedAbbr === abbr) return;
+              selectedAbbr = abbr;
+              mapEl.querySelectorAll('.map-state--selected')
+                .forEach(p => p.classList.remove('map-state--selected'));
+              path.classList.add('map-state--selected');
+              showStateFunds(abbr, stateName);
+            });
+            path.addEventListener('keydown', e => {
+              if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); path.click(); }
+            });
+          } else {
+            path.classList.add('map-state--no-funds');
+          }
+        });
+      })
+      .catch(err => console.error('Failed to load map SVG:', err));
+  }
+
+  /* ----------------------------------------------------------
      FUND DIRECTORY — fetch, render, then init interactive features
      ---------------------------------------------------------- */
 
@@ -168,6 +336,7 @@
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const funds = await resp.json();
       renderDirectory(funds);
+      initFinder(funds);
     } catch (err) {
       console.error('Failed to load fund directory:', err);
       root.innerHTML =

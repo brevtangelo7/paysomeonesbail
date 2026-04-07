@@ -32,6 +32,7 @@
       <ul class="nav-links" id="nav-links" role="list">
         <li><a href="#about">About</a></li>
         <li><a href="#why-donate">Why Donate</a></li>
+        <li><a href="#finder">Find a Fund</a></li>
         <li><a href="#directory">Directory</a></li>
         <li><a href="#national">National</a></li>
         <li><a href="#west">West</a></li>
@@ -55,7 +56,7 @@
         Thousands of immigrants sit in ICE detention awaiting court hearings - and if granted, an ICE bond (often $5,000 to $20,000) allows them to return to their families and freely prepare their legal cases.
         Grassroots bail funds run by non-profits around the nation pay these bonds for people who can't. Because bonds are returned when a case concludes, every dollar you give keeps working.
       </p>
-      <a href="#directory" class="hero-cta">Find a Fund to Support</a>
+      <a href="#finder" class="hero-cta">Find a Fund to Support</a>
     </div>
   </header>
 
@@ -98,6 +99,48 @@
           specifically on ICE bond assistance. Verify a fund's current activity and needs before
           donating, as circumstances change.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       QUICK MATCH
+       ============================================================ -->
+  <section id="finder" aria-labelledby="qm-heading">
+    <div class="qm-inner">
+      <p class="section-label">Quick Match</p>
+      <h2 class="qm-heading" id="qm-heading">
+        Get someone <span class="qm-accent">out</span> right now.
+      </h2>
+
+      <div class="qm-actions">
+        <button class="qm-btn qm-btn--primary" id="btn-random">
+          &#x1F3B2; Pick a fund for me
+        </button>
+        <button class="qm-btn qm-btn--secondary" id="btn-texas">
+          &#x26A1; High ICE activity
+        </button>
+      </div>
+
+      <!-- Random result -->
+      <div class="qm-result-wrap" id="qm-result-random">
+        <div class="qm-card" id="qm-card-random"></div>
+        <div class="qm-pick-another-wrap">
+          <button class="qm-pick-another-btn" id="btn-pick-another-random">Pick another &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Texas result -->
+      <div class="qm-result-wrap" id="qm-result-texas">
+        <p class="qm-context-note">
+          Texas records among the highest ICE arrest and detention numbers in the country
+          and is home to major facilities including T. Don Hutto and Karnes County.
+          Bond funds here are under sustained pressure.
+        </p>
+        <div class="qm-card" id="qm-card-texas"></div>
+        <div class="qm-pick-another-wrap">
+          <button class="qm-pick-another-btn" id="btn-pick-another-texas">Pick another Texas fund &rarr;</button>
+        </div>
       </div>
     </div>
   </section>
@@ -149,6 +192,37 @@
       </ol>
     </div>
   </div>
+
+  <!-- ============================================================
+       MAP DIRECTORY
+       ============================================================ -->
+  <section id="map-directory" aria-labelledby="map-dir-heading">
+    <div class="map-dir-inner">
+      <p class="section-label">Find a Fund</p>
+      <h2 id="map-dir-heading">Browse by State</h2>
+      <p class="map-dir-intro">Click a state to see ICE bond funds operating there. Grayed-out states have no listed fund.</p>
+
+      <div class="map-dir-layout">
+        <div>
+          <div id="fund-map" role="img" aria-label="US map — click a state to find funds"></div>
+          <div class="map-legend">
+            <div class="map-legend-item"><div class="map-legend-swatch swatch-has"></div>Has funds</div>
+            <div class="map-legend-item"><div class="map-legend-swatch swatch-hover"></div>Hover</div>
+            <div class="map-legend-item"><div class="map-legend-swatch swatch-selected"></div>Selected</div>
+            <div class="map-legend-item"><div class="map-legend-swatch swatch-none"></div>No listed fund</div>
+          </div>
+        </div>
+
+        <div class="map-result-panel" id="map-result-panel">
+          <div class="map-result-placeholder" id="map-placeholder">
+            &#8592; Click a state to see funds
+          </div>
+        </div>
+      </div>
+
+      <p class="map-see-all"><a href="#directory">See full searchable list &#8595;</a></p>
+    </div>
+  </section>
 
   <!-- ============================================================
        DIRECTORY

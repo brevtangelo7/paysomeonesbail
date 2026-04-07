@@ -797,3 +797,174 @@ h1, h2, h3, h4 {
    HIDDEN (search filter utility)
    ============================================================ */
 .hidden { display: none !important; }
+
+/* ============================================================
+   FINDER — Quick Match
+   ============================================================ */
+#finder {
+  background-color: #fff;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.045) 1px, transparent 1px);
+  background-size: 32px 32px;
+  padding: 5rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+}
+.qm-inner { max-width: var(--max-width); margin: 0 auto; }
+
+.qm-heading {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 900; letter-spacing: -0.03em;
+  color: #000; margin-bottom: 2rem; line-height: 1.1;
+}
+.qm-heading .qm-accent { color: var(--color-accent); }
+
+.qm-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  justify-content: center; margin-bottom: 0;
+}
+.qm-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-sans); font-weight: 800;
+  font-size: 0.88rem; letter-spacing: 0.04em; text-transform: uppercase;
+  border-radius: 50px; cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.12s;
+  min-height: 52px; padding: 0 2rem;
+  border: 2px solid transparent;
+}
+.qm-btn:hover { transform: translateY(-2px); }
+.qm-btn--primary {
+  background: var(--color-accent); color: #fff; border-color: var(--color-accent);
+}
+.qm-btn--primary:hover { background: var(--color-accent-dark); border-color: var(--color-accent-dark); }
+.qm-btn--secondary {
+  background: transparent; color: #000; border-color: #000;
+}
+.qm-btn--secondary:hover { background: #000; color: #fff; }
+
+.qm-result-wrap { margin-top: 2.5rem; display: none; }
+.qm-result-wrap.visible { display: block; }
+
+.qm-card {
+  background: #fff; border: 2px solid #000;
+  border-radius: var(--radius); padding: 1.75rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  max-width: 520px; margin: 0 auto; text-align: left;
+  box-shadow: var(--shadow);
+}
+.qm-fund-name { font-size: 1rem; font-weight: 800; color: #000; line-height: 1.25; letter-spacing: -0.01em; }
+.qm-fund-tag {
+  display: inline-block; background: #111; color: #fff;
+  font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 0.22rem 0.6rem;
+  border-radius: 50px; width: fit-content;
+}
+.qm-fund-desc { font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.6; }
+.qm-fund-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem; }
+
+.qm-pick-another-wrap { margin-top: 1.1rem; }
+.qm-pick-another-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--font-sans); font-size: 0.82rem; font-weight: 700;
+  color: var(--color-text-muted); letter-spacing: 0.02em;
+  text-decoration: underline; padding: 0;
+  transition: color 0.15s;
+}
+.qm-pick-another-btn:hover { color: #000; }
+
+.qm-context-note {
+  font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.6;
+  margin-bottom: 1.25rem; max-width: 520px; margin-left: auto; margin-right: auto;
+  text-align: left;
+  background: #fff8f5; border-left: 3px solid var(--color-accent);
+  padding: 0.75rem 1rem; border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+/* ============================================================
+   FINDER — Map Directory
+   ============================================================ */
+#map-directory {
+  background: #fff; padding: 5rem 1.5rem 4rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.map-dir-inner { max-width: var(--max-width); margin: 0 auto; }
+.map-dir-inner h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem); color: #000;
+  font-weight: 900; letter-spacing: -0.03em; margin-bottom: 0.4rem; line-height: 1.1;
+}
+.map-dir-intro { font-size: 0.95rem; color: var(--color-text-muted); margin-bottom: 2.5rem; }
+
+.map-dir-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 3rem;
+  align-items: start;
+}
+
+#fund-map svg { width: 100%; height: auto; display: block; }
+
+#fund-map path {
+  fill: #e8e8e8;
+  stroke: #c8c8c8;
+  stroke-width: 0.5;
+  transition: stroke 0.12s, stroke-width 0.12s, fill 0.12s;
+}
+.map-state--has-funds { cursor: pointer; }
+.map-state--has-funds:hover { stroke: #555 !important; stroke-width: 1.5 !important; }
+.map-state--selected { fill: var(--color-accent) !important; stroke: #cc3300 !important; stroke-width: 0.75 !important; }
+.map-state--no-funds { fill: #f2f2f2 !important; stroke: #ddd !important; cursor: default; opacity: 0.6; }
+
+.map-legend {
+  display: flex; gap: 1.25rem; flex-wrap: wrap; margin-top: 1rem;
+}
+.map-legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; color: var(--color-text-muted); font-weight: 600; }
+.map-legend-swatch { width: 14px; height: 14px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.12); flex-shrink: 0; }
+.swatch-has { background: #e8e8e8; }
+.swatch-hover { background: #e8e8e8; border-color: #555; outline: 1px solid #555; }
+.swatch-selected { background: var(--color-accent); }
+.swatch-none { background: #f2f2f2; border-color: #ddd; opacity: 0.6; }
+
+.map-result-panel { min-height: 200px; }
+.map-result-placeholder {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 200px; border: 2px dashed var(--color-border);
+  border-radius: var(--radius); color: var(--color-text-muted);
+  font-size: 0.9rem; text-align: center; padding: 2rem; line-height: 1.6;
+}
+.state-result-heading {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #000;
+  margin-bottom: 1rem; padding-bottom: 0.6rem;
+  border-bottom: 2px solid #000;
+}
+.state-fund-list {
+  display: flex; flex-direction: column; gap: 1px;
+  background: var(--color-border); border: 1px solid var(--color-border);
+}
+.state-fund-card {
+  background: #fff; padding: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.6rem;
+  transition: background 0.1s;
+}
+.state-fund-card:hover { background: #fafafa; }
+
+.btn-donate-sm { background: var(--color-accent); color: #fff; font-size: 0.7rem; padding: 0.42rem 0.9rem; }
+.btn-donate-sm:hover { background: var(--color-accent-dark); color: #fff; }
+.btn-learn-sm { background: transparent; color: #000; border: 2px solid #000; font-size: 0.7rem; padding: 0.42rem 0.9rem; }
+.btn-learn-sm:hover { background: #000; color: #fff; }
+.btn-search-sm { background: #f0f0f0; color: #555; border: 1px solid var(--color-border); font-size: 0.7rem; font-weight: 700; padding: 0.42rem 0.9rem; }
+.btn-search-sm:hover { background: #e0e0e0; color: #000; }
+
+.map-see-all { margin-top: 2rem; font-size: 0.85rem; }
+.map-see-all a { color: var(--color-accent-dark); font-weight: 700; text-decoration: underline; }
+
+@media (max-width: 900px) {
+  .map-dir-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  #finder { padding: 3rem 1.25rem; }
+  #map-directory { padding: 3rem 1.25rem 2.5rem; }
+  .qm-btn { font-size: 0.82rem; min-height: 48px; padding: 0 1.5rem; }
+}
