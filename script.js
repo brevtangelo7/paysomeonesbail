@@ -70,6 +70,63 @@
   };
 
   /* ----------------------------------------------------------
+     FUND LOGOS — map fund name → local image file
+     ---------------------------------------------------------- */
+
+  const FUND_LOGOS = {
+    'Black Immigrants Bail Fund':
+      { src: 'fundimages/blackimmigrantsbailfund.webp' },
+    'LGBTQ Freedom Fund':
+      { src: 'fundimages/lgbtqfund.webp' },
+    'Pima Monthly Meeting Immigration Bond Fund':
+      { src: 'fundimages/pimafund.png' },
+    'CLUE Detained Immigrant Bond Fund':
+      { src: 'fundimages/CLUE-LOGOSET-24.png' },
+    'NorCal Resist Sacramento Region Bond Fund':
+      { src: 'fundimages/norcal-resist-logo-art_2.jpg' },
+    'Orange County Justice Fund':
+      { src: 'fundimages/OC-Justice-Fund-logo-1536x1536-1-e1748369932676-1.png' },
+    'Long Beach Justice Fund':
+      { src: 'fundimages/ORALE_Full Color 1.avif' },
+    'Familias Reunidas Immigration Bond Fund':
+      { src: 'fundimages/familias reunidas.png' },
+    'San Diego IRC \u2014 Borderlands Get Free Fund':
+      { src: 'fundimages/SDIRC-LOGO-HORIZ_copy.png' },
+    'Georgia Immigration Bond Fund':
+      { src: 'fundimages/small-glahr-white-vector.png', dark: true },
+    'Midwest Immigration Bond Fund':
+      { src: 'fundimages/MIBF-Horizontal+logo-RGB-Full+color+yellow.webp' },
+    'Prairielands Freedom Fund':
+      { src: 'fundimages/prairielands freedom fund.webp' },
+    'Connecticut Bail Fund':
+      { src: 'fundimages/connecticut bail fund.png' },
+    'Mainers for Humane Immigration \u2014 Freedom Fund':
+      { src: 'fundimages/MHI+Banner+White+Font+(1).webp', dark: true },
+    'Beyond Bail & Legal Defense Fund':
+      { src: 'fundimages/beyondboston.webp' },
+    'Las Vegas Family Unity Bond Fund':
+      { src: 'fundimages/lasvegasfamilyunity bond fund.webp' },
+    'The Fronterizx Fianza Fund':
+      { src: 'fundimages/Contigo-logo-white.webp', dark: true },
+    'AMOR Bond Fund':
+      { src: 'fundimages/AMOR-Logo2en_Red.png' },
+    'Community Fund for Bond and Legal Support':
+      { src: 'fundimages/sanctuary philadelpha fund.png' },
+    'Central Virginia Community Support Fund':
+      { src: 'fundimages/central virgina bond fund.webp' },
+  };
+
+  function getFundLogoHtml(fund) {
+    const entry = FUND_LOGOS[fund.name];
+    if (!entry) return '';
+    const darkClass = entry.dark ? ' fund-logo-zone--dark' : '';
+    return `<div class="fund-logo-zone${darkClass}">` +
+      `<img src="${esc(entry.src)}" alt="${esc(fund.name)} logo" loading="lazy"` +
+      ` onerror="this.parentElement.style.display='none'">` +
+      `</div>`;
+  }
+
+  /* ----------------------------------------------------------
      FUND DIRECTORY — HTML rendering helpers
      ---------------------------------------------------------- */
 
@@ -114,6 +171,7 @@
       ` data-name="${esc(fund.name)}"` +
       ` data-state="${esc(stateLower)}"` +
       ` data-url-status="${fund.website ? 'confirmed' : 'unconfirmed'}">` +
+      getFundLogoHtml(fund) +
       `<div class="fund-card-header">` +
       `<div class="fund-name">${esc(fund.name)}</div>` +
       `<div class="fund-tags">${buildStateTags(fund, 'fund-tag')}</div>` +
@@ -221,7 +279,8 @@
       const actions = url
         ? `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Give $5</a>`
         : `<a href="https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}" class="btn btn-search" target="_blank" rel="noopener noreferrer">Search Online</a>`;
-      return `<div class="fund-card-header">` +
+      return getFundLogoHtml(fund) +
+        `<div class="fund-card-header">` +
         `<div class="qm-fund-name">${esc(fund.name)}</div>` +
         `<div class="fund-tags">${buildStateTags(fund, 'qm-fund-tag')}</div>` +
         `</div>` +
@@ -240,6 +299,7 @@
         ? `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate</a>`
         : `<a href="https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}" class="btn btn-search" target="_blank" rel="noopener noreferrer">Search online</a>`;
       return `<div class="state-fund-card">` +
+        getFundLogoHtml(fund) +
         `<div class="fund-card-header">` +
         `<div class="fund-name">${esc(fund.name)}</div>` +
         `<div class="fund-tags">${buildStateTags(fund, 'fund-tag')}</div>` +
@@ -437,6 +497,18 @@
     const ctaHref  = fundUrl || `https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}`;
     const fundState = esc(fund.stateAbbr || fund.state || '');
 
+    const logoEntry = FUND_LOGOS[fund.name];
+    let glyphHtml;
+    if (logoEntry) {
+      const darkExtra = logoEntry.dark ? ' has-logo--dark' : '';
+      glyphHtml = `<div class="ice-fund-glyph has-logo${darkExtra}">` +
+        `<img src="${esc(logoEntry.src)}" alt="${esc(fund.name)} logo" loading="lazy"` +
+        ` onerror="this.parentElement.style.display='none'">` +
+        `</div>`;
+    } else {
+      glyphHtml = `<div class="ice-fund-glyph">${glyphSvg}</div>`;
+    }
+
     return `<div class="ice-pair">
       <article class="ice-news-card">
         <div class="ice-news-masthead">
@@ -469,7 +541,7 @@
           <span>${fundState}</span>
         </div>
         <div class="ice-fund-top">
-          <div class="ice-fund-glyph">${glyphSvg}</div>
+          ${glyphHtml}
           <div>
             <div class="ice-fund-donate-label">Donate to</div>
             <div class="ice-fund-name">${esc(fund.name)}</div>
