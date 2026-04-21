@@ -207,17 +207,16 @@
 
     // Card for Quick Match slot
     function buildQmCard(fund) {
-      const coverage = fund.area ? fund.state + ' \u2014 ' + fund.area
-                     : fund.state === 'National' ? 'Nationwide' : fund.state;
+      const tagLabel = fund.stateAbbr || fund.state || '';
       const url = fund.website ? esc(fund.website) : null;
       const visitLink = url
         ? ` <a href="${url}" class="fund-desc-link" target="_blank" rel="noopener noreferrer">Visit site &rarr;</a>`
         : '';
       const actions = url
-        ? `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate</a>`
-        : `<a href="https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}" class="btn btn-search" target="_blank" rel="noopener noreferrer">Search online</a>`;
+        ? `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate Now</a>`
+        : `<a href="https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}" class="btn btn-search" target="_blank" rel="noopener noreferrer">Search Online</a>`;
       return `<div class="qm-fund-name">${esc(fund.name)}</div>` +
-        `<span class="qm-fund-tag">${esc(coverage)}</span>` +
+        `<span class="qm-fund-tag">${esc(tagLabel)}</span>` +
         (fund.description ? `<p class="qm-fund-desc">${esc(fund.description)}${visitLink}</p>` : '') +
         `<div class="qm-fund-actions">${actions}</div>`;
     }
@@ -276,13 +275,27 @@
       });
     }
 
+    let highActivityPicked = false;
     if (btnTexas) {
       btnTexas.addEventListener('click', () => {
         if (resultRandom) resultRandom.classList.remove('visible');
-        const txFunds = byAbbr['TX'] || [];
-        if (!txFunds.length) return;
-        const pool = getFinderPool('qm-texas', txFunds);
-        cardTexas.innerHTML = buildQmCard(pool.items[pool.idx]);
+        const highActivityAbbrs = ['FL', 'GA', 'TX', 'MN', 'LA', 'CA', 'TN'];
+        const highActivityFunds = [];
+        highActivityAbbrs.forEach(abbr => {
+          (byAbbr[abbr] || []).forEach(f => {
+            if (!highActivityFunds.includes(f)) highActivityFunds.push(f);
+          });
+        });
+        if (!highActivityFunds.length) return;
+        const pool = getFinderPool('qm-texas', highActivityFunds);
+        if (!highActivityPicked) {
+          highActivityPicked = true;
+          cardTexas.innerHTML = buildQmCard(pool.items[pool.idx]);
+        } else {
+          const next = advanceFinderPool('qm-texas');
+          if (next) cardTexas.innerHTML = buildQmCard(next);
+        }
+        btnTexas.innerHTML = '&#x26A1; Another high ICE activity area';
         if (resultTexas) resultTexas.classList.add('visible');
       });
     }
@@ -483,8 +496,9 @@
       const resp = await fetch('immigration-bail-funds.json');
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const funds = await resp.json();
-      renderDirectory(funds);
-      initFinder(funds.filter(f => f.directDonate !== false));
+      const donatableFunds = funds.filter(f => f.directDonate !== false);
+      renderDirectory(donatableFunds);
+      initFinder(donatableFunds);
       initIceActivity(funds);
     } catch (err) {
       console.error('Failed to load fund directory:', err);
