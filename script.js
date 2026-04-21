@@ -81,15 +81,21 @@
       .replace(/"/g, '&quot;');
   }
 
+  function buildStateTags(fund, tagClass) {
+    const abbrs = (fund.states && fund.states.length > 1)
+      ? fund.states
+      : [fund.stateAbbr || fund.state || ''];
+    return abbrs.filter(Boolean).map(a => `<span class="${tagClass}">${esc(a)}</span>`).join('');
+  }
+
   function buildFundCard(fund) {
     const stateLower = (fund.stateNames || fund.state || '').toLowerCase();
-    const tagLabel   = fund.stateAbbr || fund.state || '';
 
     let actionsHtml;
     if (fund.website) {
       const url = esc(fund.website);
       actionsHtml =
-        `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate Now</a>`;
+        `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Give $5</a>`;
     } else {
       const q = encodeURIComponent((fund.name || '') + ' immigration bond fund');
       actionsHtml =
@@ -110,7 +116,7 @@
       ` data-url-status="${fund.website ? 'confirmed' : 'unconfirmed'}">` +
       `<div class="fund-card-header">` +
       `<div class="fund-name">${esc(fund.name)}</div>` +
-      `<span class="fund-tag">${esc(tagLabel)}</span>` +
+      `<div class="fund-tags">${buildStateTags(fund, 'fund-tag')}</div>` +
       `</div>` +
       descHtml +
       `<div class="fund-actions">${actionsHtml}</div>` +
@@ -213,10 +219,12 @@
         ? ` <a href="${url}" class="fund-desc-link" target="_blank" rel="noopener noreferrer">Visit site &rarr;</a>`
         : '';
       const actions = url
-        ? `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Donate Now</a>`
+        ? `<a href="${url}" class="btn btn-donate" target="_blank" rel="noopener noreferrer">Give $5</a>`
         : `<a href="https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}" class="btn btn-search" target="_blank" rel="noopener noreferrer">Search Online</a>`;
-      return `<div class="qm-fund-name">${esc(fund.name)}</div>` +
-        `<span class="qm-fund-tag">${esc(tagLabel)}</span>` +
+      return `<div class="fund-card-header">` +
+        `<div class="qm-fund-name">${esc(fund.name)}</div>` +
+        `<div class="fund-tags">${buildStateTags(fund, 'qm-fund-tag')}</div>` +
+        `</div>` +
         (fund.description ? `<p class="qm-fund-desc">${esc(fund.description)}${visitLink}</p>` : '') +
         `<div class="qm-fund-actions">${actions}</div>`;
     }
@@ -234,7 +242,7 @@
       return `<div class="state-fund-card">` +
         `<div class="fund-card-header">` +
         `<div class="fund-name">${esc(fund.name)}</div>` +
-        `<span class="fund-tag">${esc(tagLabel)}</span>` +
+        `<div class="fund-tags">${buildStateTags(fund, 'fund-tag')}</div>` +
         `</div>` +
         (fund.description ? `<p class="fund-desc">${esc(fund.description)}${visitLink}</p>` : '') +
         `<div class="fund-actions">${actions}</div>` +
@@ -374,38 +382,11 @@
   }
 
   /* ----------------------------------------------------------
-     RECENT ICE ACTIVITY — news + fund pairing
+     RECENT ICE ACTIVITY — live news + fund pairing
      ---------------------------------------------------------- */
 
-  // Hardcoded recent activity items. Update dates/headlines as new events occur.
-  const ICE_ACTIVITY_ITEMS = [
-    {
-      headline: 'ICE operations expand across Texas detention facilities',
-      dek: 'Bond amounts at South Texas facilities commonly range from $10,000–$20,000 as courts process a growing backlog. Local funds are under sustained pressure.',
-      date: '2026-04-12',
-      stateAbbr: 'TX',
-      recencyLabel: null, // computed automatically
-    },
-    {
-      headline: 'New England communities report sharp rise in ICE arrests',
-      dek: 'Community bond organizations in Massachusetts and Connecticut are receiving more calls for urgent assistance than at any point in recent years.',
-      date: '2026-04-06',
-      stateAbbr: 'MA',
-      recencyLabel: null,
-    },
-    {
-      headline: 'California agricultural regions see heightened enforcement activity',
-      dek: 'Farmworker advocacy groups in the Central Valley and Bay Area are reporting increased ICE presence, straining local bond fund resources.',
-      date: '2026-03-29',
-      stateAbbr: 'CA',
-      recencyLabel: null,
-    },
-  ];
-
-  function timeAgo(dateStr) {
-    const then = new Date(dateStr);
-    const now  = new Date();
-    const diffMs   = now - then;
+  function timeAgo(date) {
+    const diffMs   = Date.now() - date.getTime();
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
     if (diffDays === 0) return 'Today';
     if (diffDays === 1) return 'Yesterday';
@@ -416,73 +397,124 @@
     return months === 1 ? '1 month ago' : months + ' months ago';
   }
 
-  function initIceActivity(funds) {
-    const listEl = document.getElementById('ice-activity-list');
-    if (!listEl) return;
+  function cleanTitle(title, sourceName) {
+    // Strip trailing " - Source Name" appended by Google News
+    if (sourceName) {
+      const suffix = new RegExp('\\s*[-–—]\\s*' + sourceName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*$', 'i');
+      title = title.replace(suffix, '');
+    }
+    return title.trim();
+  }
 
-    // Build state→funds lookup
-    const byAbbr = {};
-    funds.forEach(f => {
-      const abbrs = f.states || (f.stateAbbr ? [f.stateAbbr] : []);
-      abbrs.forEach(abbr => { (byAbbr[abbr] = byAbbr[abbr] || []).push(f); });
-    });
+  function cleanDescription(desc, sourceName) {
+    // Decode common HTML entities left by RSS stripping
+    desc = desc.replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
+               .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+    // Strip trailing "  Source Name" artifact Google News appends
+    if (sourceName) {
+      const suffix = new RegExp('\\s{2,}' + sourceName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*$', 'i');
+      desc = desc.replace(suffix, '');
+    }
+    return desc.trim();
+  }
 
+  function renderIcePair(article, fund) {
     const glyphSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>`;
     const arrowSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>`;
 
-    const html = ICE_ACTIVITY_ITEMS.map(item => {
-      const stateFunds = byAbbr[item.stateAbbr] || [];
-      const fund = stateFunds[0];
-      if (!fund) return '';
+    const pubDate   = article.pubDate ? new Date(article.pubDate) : null;
+    const recency   = pubDate ? timeAgo(pubDate) : '';
+    const dateLabel = pubDate ? pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
 
-      const recency   = timeAgo(item.date);
-      const dateObj   = new Date(item.date);
-      const dateLabel = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      const fundUrl   = fund.website ? esc(fund.website) : null;
-      const ctaHref   = fundUrl || `https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}`;
-      const fundState = esc(fund.stateAbbr || item.stateAbbr);
+    const title       = cleanTitle(article.title || '', article.sourceName);
+    const description = cleanDescription(article.description || '', article.sourceName);
+    const domain      = esc(article.domain || '');
+    const sourceName  = esc(article.sourceName || 'News');
+    const logoSrc     = `https://logo.clearbit.com/${domain}`;
+    const faviconSrc  = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
 
-      return `<div class="ice-pair">
-        <article class="ice-news-card">
-          <div class="ice-news-masthead">
-            <span>ICE Enforcement &middot; ${esc(item.stateAbbr)}</span>
-            <span>${esc(dateLabel)}</span>
-          </div>
-          <div class="ice-news-recency">${esc(recency)}</div>
-          <div class="ice-rule-deco"></div>
-          <div class="ice-news-headline">${esc(item.headline)}</div>
-          <p class="ice-news-dek">${esc(item.dek)}</p>
-          <div class="ice-news-byline">&mdash; Continued inside</div>
-        </article>
-        <div class="ice-connector" aria-hidden="true">
-          <div class="ice-connector-badge">${arrowSvg}</div>
-          <div class="ice-connector-caption">Fund nearby</div>
+    const fundUrl  = fund.website ? esc(fund.website) : null;
+    const ctaHref  = fundUrl || `https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}`;
+    const fundState = esc(fund.stateAbbr || fund.state || '');
+
+    return `<div class="ice-pair">
+      <article class="ice-news-card">
+        <div class="ice-news-masthead">
+          <span class="ice-news-source-row">
+            <img class="ice-news-outlet-logo"
+                 src="${logoSrc}"
+                 alt="${sourceName}"
+                 onerror="this.src='${faviconSrc}'; this.onerror=null;">
+            ${sourceName}
+          </span>
+          <span>${esc(dateLabel)}</span>
         </div>
-        <div class="ice-fund-card">
-          <div class="ice-fund-masthead">
-            <span class="ice-fund-label">Local bond fund</span>
-            <span>${fundState}</span>
-          </div>
-          <div class="ice-fund-top">
-            <div class="ice-fund-glyph">${glyphSvg}</div>
-            <div>
-              <div class="ice-fund-donate-label">Donate to</div>
-              <div class="ice-fund-name">${esc(fund.name)}</div>
-            </div>
-          </div>
-          ${fund.description ? `<p class="ice-fund-desc">${esc(fund.description)}</p>` : ''}
-          <a href="${ctaHref}" class="ice-fund-cta" target="_blank" rel="noopener noreferrer">
-            Pay Someone&rsquo;s Bail <span class="ice-cta-arrow">&#x2197;</span>
+        ${recency ? `<div class="ice-news-recency">${esc(recency)}</div>` : ''}
+        <div class="ice-rule-deco"></div>
+        <div class="ice-news-headline">${esc(title)}</div>
+        ${description ? `<p class="ice-news-dek">${esc(description)}</p>` : ''}
+        <div class="ice-news-byline">
+          <a class="ice-news-read-link" href="${esc(article.link)}" target="_blank" rel="noopener noreferrer">
+            Read full article &#x2197;
           </a>
-          <div class="ice-fund-fine">
-            <span>100% goes to the fund</span>
-            <span>Non-profit</span>
+        </div>
+      </article>
+      <div class="ice-connector" aria-hidden="true">
+        <div class="ice-connector-badge">${arrowSvg}</div>
+        <div class="ice-connector-caption">Fund nearby</div>
+      </div>
+      <div class="ice-fund-card">
+        <div class="ice-fund-masthead">
+          <span class="ice-fund-label">Local bond fund</span>
+          <span>${fundState}</span>
+        </div>
+        <div class="ice-fund-top">
+          <div class="ice-fund-glyph">${glyphSvg}</div>
+          <div>
+            <div class="ice-fund-donate-label">Donate to</div>
+            <div class="ice-fund-name">${esc(fund.name)}</div>
           </div>
         </div>
-      </div>`;
-    }).filter(Boolean).join('');
+        ${fund.description ? `<p class="ice-fund-desc">${esc(fund.description)}</p>` : ''}
+        <a href="${ctaHref}" class="ice-fund-cta" target="_blank" rel="noopener noreferrer">
+          Pay Someone&rsquo;s Bail <span class="ice-cta-arrow">&#x2197;</span>
+        </a>
+        <div class="ice-fund-fine">
+          <span>100% goes to the fund</span>
+          <span>Non-profit</span>
+        </div>
+      </div>
+    </div>`;
+  }
 
-    listEl.innerHTML = html || '<p class="ice-activity-loading">No activity data available.</p>';
+  async function initIceActivity() {
+    const listEl = document.getElementById('ice-activity-list');
+    if (!listEl) return;
+
+    // Loading skeleton
+    listEl.innerHTML = `<div class="ice-loading-state" aria-live="polite" aria-busy="true">
+      <div class="ice-loading-card ice-loading-news"></div>
+      <div class="ice-loading-card ice-loading-fund"></div>
+    </div>`;
+
+    try {
+      const resp = await fetch('/api/ice-activity');
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+
+      if (data.error || !data.article || !data.fund) {
+        throw new Error(data.error || 'Incomplete response');
+      }
+
+      listEl.innerHTML = renderIcePair(data.article, data.fund);
+    } catch (err) {
+      console.warn('ICE activity feed unavailable:', err.message);
+      listEl.innerHTML = `<p class="ice-activity-loading">
+        Latest enforcement news temporarily unavailable —
+        <a href="https://news.google.com/search?q=ICE+immigration+enforcement" target="_blank" rel="noopener noreferrer">search Google News</a>
+        for recent activity.
+      </p>`;
+    }
   }
 
   /* ----------------------------------------------------------
@@ -499,7 +531,8 @@
       const donatableFunds = funds.filter(f => f.directDonate !== false);
       renderDirectory(donatableFunds);
       initFinder(donatableFunds);
-      initIceActivity(funds);
+      initHeroRotation(donatableFunds);
+      initIceActivity();
     } catch (err) {
       console.error('Failed to load fund directory:', err);
       if (root) root.innerHTML =
@@ -518,20 +551,24 @@
      HERO — rotating state name
      ---------------------------------------------------------- */
 
-  const HERO_PLACES = [
-    'Texas.', 'the Bay Area.', 'New York.', 'Georgia.',
-    'Massachusetts.', 'Chicago.', 'New Jersey.', 'Los Angeles.',
-    'Florida.', 'Colorado.', 'Illinois.', 'Virginia.'
-  ];
-  const heroPlaceEl = document.getElementById('hero-place');
-  if (heroPlaceEl) {
+  function initHeroRotation(funds) {
+    const seen = new Set();
+    const places = funds
+      .map(f => f.area && f.area !== f.state ? f.area : (f.state || ''))
+      .filter(p => p && !seen.has(p) && seen.add(p))
+      .map(p => p + '.');
+    if (!places.length) return;
+
+    const heroPlaceEl = document.getElementById('hero-place');
+    if (!heroPlaceEl) return;
+    heroPlaceEl.textContent = places[0];
     let heroIdx = 0;
     setInterval(() => {
       heroPlaceEl.style.opacity = '0';
       heroPlaceEl.style.transform = 'translateY(-6px)';
       setTimeout(() => {
-        heroIdx = (heroIdx + 1) % HERO_PLACES.length;
-        heroPlaceEl.textContent = HERO_PLACES[heroIdx];
+        heroIdx = (heroIdx + 1) % places.length;
+        heroPlaceEl.textContent = places[heroIdx];
         heroPlaceEl.style.opacity = '1';
         heroPlaceEl.style.transform = 'translateY(0)';
       }, 250);

@@ -557,6 +557,8 @@ h1, h2, h3, h4 {
   line-height: 1.25;
   font-family: var(--font-sans);
   letter-spacing: -0.01em;
+  flex: 1;
+  min-width: 0;
 }
 
 .fund-card-header {
@@ -566,12 +568,19 @@ h1, h2, h3, h4 {
   gap: 0.75rem;
 }
 
+.fund-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
 .fund-tag {
   display: inline-block;
   background: #E6DFCD;
   color: #8B8371;
   font-size: 0.65rem;
-  flex-shrink: 0;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -838,7 +847,7 @@ h1, h2, h3, h4 {
   max-width: 520px; margin: 0 auto; text-align: left;
   box-shadow: var(--shadow);
 }
-.qm-fund-name { font-size: 1rem; font-weight: 800; color: #1A1815; line-height: 1.25; letter-spacing: -0.01em; }
+.qm-fund-name { font-size: 1rem; font-weight: 800; color: #1A1815; line-height: 1.25; letter-spacing: -0.01em; flex: 1; min-width: 0; }
 .qm-fund-tag {
   display: inline-block; background: #1A1815; color: #fff;
   font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em;
@@ -1191,11 +1200,73 @@ h1, h2, h3, h4 {
   color: var(--color-text-muted);
 }
 
+/* Outlet logo + source name in masthead */
+.ice-news-source-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ice-news-outlet-logo {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* "Read full article" link replacing the static byline */
+.ice-news-read-link {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.15s;
+}
+
+.ice-news-read-link:hover {
+  color: var(--color-accent);
+}
+
+/* Loading skeleton */
+.ice-loading-state {
+  display: grid;
+  grid-template-columns: 1fr 56px 1fr;
+  gap: 0;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .ice-loading-state { grid-template-columns: 1fr; }
+}
+
+.ice-loading-card {
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-border) 25%, rgba(0,0,0,0.04) 50%, var(--color-border) 75%);
+  background-size: 200% 100%;
+  animation: ice-shimmer 1.4s infinite;
+}
+
+.ice-loading-news { height: 340px; }
+.ice-loading-fund { height: 280px; }
+
+@keyframes ice-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* Loading / empty state */
 .ice-activity-loading {
   color: var(--color-text-muted);
   font-size: 0.9rem;
   padding: 2rem 0;
+}
+
+.ice-activity-loading a {
+  color: var(--color-accent);
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {
