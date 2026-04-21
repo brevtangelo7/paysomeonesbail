@@ -259,7 +259,7 @@
         const pool = getFinderPool('qm-random', funds);
         if (!randomPicked) {
           randomPicked = true;
-          btnRandom.innerHTML = '&#x1F3B2; Pick another';
+          btnRandom.innerHTML = '&#x1F3B2; Pick another fund for me';
           cardRandom.innerHTML = buildQmCard(pool.items[pool.idx]);
         } else {
           const next = advanceFinderPool('qm-random');
@@ -361,6 +361,118 @@
   }
 
   /* ----------------------------------------------------------
+     RECENT ICE ACTIVITY — news + fund pairing
+     ---------------------------------------------------------- */
+
+  // Hardcoded recent activity items. Update dates/headlines as new events occur.
+  const ICE_ACTIVITY_ITEMS = [
+    {
+      headline: 'ICE operations expand across Texas detention facilities',
+      dek: 'Bond amounts at South Texas facilities commonly range from $10,000–$20,000 as courts process a growing backlog. Local funds are under sustained pressure.',
+      date: '2026-04-12',
+      stateAbbr: 'TX',
+      recencyLabel: null, // computed automatically
+    },
+    {
+      headline: 'New England communities report sharp rise in ICE arrests',
+      dek: 'Community bond organizations in Massachusetts and Connecticut are receiving more calls for urgent assistance than at any point in recent years.',
+      date: '2026-04-06',
+      stateAbbr: 'MA',
+      recencyLabel: null,
+    },
+    {
+      headline: 'California agricultural regions see heightened enforcement activity',
+      dek: 'Farmworker advocacy groups in the Central Valley and Bay Area are reporting increased ICE presence, straining local bond fund resources.',
+      date: '2026-03-29',
+      stateAbbr: 'CA',
+      recencyLabel: null,
+    },
+  ];
+
+  function timeAgo(dateStr) {
+    const then = new Date(dateStr);
+    const now  = new Date();
+    const diffMs   = now - then;
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7)  return diffDays + ' days ago';
+    const weeks = Math.floor(diffDays / 7);
+    if (weeks < 5)     return weeks === 1 ? '1 week ago' : weeks + ' weeks ago';
+    const months = Math.floor(diffDays / 30);
+    return months === 1 ? '1 month ago' : months + ' months ago';
+  }
+
+  function initIceActivity(funds) {
+    const listEl = document.getElementById('ice-activity-list');
+    if (!listEl) return;
+
+    // Build state→funds lookup
+    const byAbbr = {};
+    funds.forEach(f => {
+      const abbrs = f.states || (f.stateAbbr ? [f.stateAbbr] : []);
+      abbrs.forEach(abbr => { (byAbbr[abbr] = byAbbr[abbr] || []).push(f); });
+    });
+
+    const glyphSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>`;
+    const arrowSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>`;
+
+    const html = ICE_ACTIVITY_ITEMS.map(item => {
+      const stateFunds = byAbbr[item.stateAbbr] || [];
+      const fund = stateFunds[0];
+      if (!fund) return '';
+
+      const recency   = timeAgo(item.date);
+      const dateObj   = new Date(item.date);
+      const dateLabel = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const fundUrl   = fund.website ? esc(fund.website) : null;
+      const ctaHref   = fundUrl || `https://www.google.com/search?q=${encodeURIComponent(fund.name + ' immigration bond')}`;
+      const fundState = esc(fund.stateAbbr || item.stateAbbr);
+
+      return `<div class="ice-pair">
+        <article class="ice-news-card">
+          <div class="ice-news-masthead">
+            <span>ICE Enforcement &middot; ${esc(item.stateAbbr)}</span>
+            <span>${esc(dateLabel)}</span>
+          </div>
+          <div class="ice-news-recency">${esc(recency)}</div>
+          <div class="ice-rule-deco"></div>
+          <div class="ice-news-headline">${esc(item.headline)}</div>
+          <p class="ice-news-dek">${esc(item.dek)}</p>
+          <div class="ice-news-byline">&mdash; Continued inside</div>
+        </article>
+        <div class="ice-connector" aria-hidden="true">
+          <div class="ice-connector-badge">${arrowSvg}</div>
+          <div class="ice-connector-caption">Fund nearby</div>
+        </div>
+        <div class="ice-fund-card">
+          <div class="ice-fund-masthead">
+            <span class="ice-fund-label">Local bond fund</span>
+            <span>${fundState}</span>
+          </div>
+          <div class="ice-fund-top">
+            <div class="ice-fund-glyph">${glyphSvg}</div>
+            <div>
+              <div class="ice-fund-donate-label">Donate to</div>
+              <div class="ice-fund-name">${esc(fund.name)}</div>
+            </div>
+          </div>
+          ${fund.description ? `<p class="ice-fund-desc">${esc(fund.description)}</p>` : ''}
+          <a href="${ctaHref}" class="ice-fund-cta" target="_blank" rel="noopener noreferrer">
+            Pay Someone&rsquo;s Bail <span class="ice-cta-arrow">&#x2197;</span>
+          </a>
+          <div class="ice-fund-fine">
+            <span>100% goes to the fund</span>
+            <span>Non-profit</span>
+          </div>
+        </div>
+      </div>`;
+    }).filter(Boolean).join('');
+
+    listEl.innerHTML = html || '<p class="ice-activity-loading">No activity data available.</p>';
+  }
+
+  /* ----------------------------------------------------------
      FUND DIRECTORY — fetch, render, then init interactive features
      ---------------------------------------------------------- */
 
@@ -373,6 +485,7 @@
       const funds = await resp.json();
       renderDirectory(funds);
       initFinder(funds.filter(f => f.directDonate !== false));
+      initIceActivity(funds);
     } catch (err) {
       console.error('Failed to load fund directory:', err);
       if (root) root.innerHTML =
@@ -385,6 +498,30 @@
     initCollapsibleRegions();
     initStickyNav();
     initSearch();
+  }
+
+  /* ----------------------------------------------------------
+     HERO — rotating state name
+     ---------------------------------------------------------- */
+
+  const HERO_PLACES = [
+    'Texas.', 'the Bay Area.', 'New York.', 'Georgia.',
+    'Massachusetts.', 'Chicago.', 'New Jersey.', 'Los Angeles.',
+    'Florida.', 'Colorado.', 'Illinois.', 'Virginia.'
+  ];
+  const heroPlaceEl = document.getElementById('hero-place');
+  if (heroPlaceEl) {
+    let heroIdx = 0;
+    setInterval(() => {
+      heroPlaceEl.style.opacity = '0';
+      heroPlaceEl.style.transform = 'translateY(-6px)';
+      setTimeout(() => {
+        heroIdx = (heroIdx + 1) % HERO_PLACES.length;
+        heroPlaceEl.textContent = HERO_PLACES[heroIdx];
+        heroPlaceEl.style.opacity = '1';
+        heroPlaceEl.style.transform = 'translateY(0)';
+      }, 250);
+    }, 2800);
   }
 
   /* ----------------------------------------------------------

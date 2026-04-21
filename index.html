@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Find and support non-profit ICE bond funds across the United States. A directory of organizations helping detained immigrants pay their ICE bond and return home to their families." />
   <title>Pay Someone's Bail — ICE Bond Fund Directory</title>
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
 
@@ -16,7 +19,7 @@
        ============================================================ -->
   <nav class="site-nav" aria-label="Site navigation">
     <div class="nav-inner">
-      <a href="index.html" class="nav-brand">Pay Someone's Bail</a>
+      <a href="index.html" class="nav-brand">pay someone's bail.</a>
 
       <button
         class="hamburger"
@@ -42,12 +45,13 @@
        ============================================================ -->
   <header class="hero" id="top">
     <div class="hero-inner">
-      <p class="section-label">Did you know you could...</p>
-      <h1>Pay Someone's <span class="highlight">Bail</span></h1>
-      <p class="tagline">Get someone get out of ICE detention right now</p>
+      <div class="hero-headline">
+        <div class="hero-line-lead">Ice is operating in</div>
+        <div class="hero-place-wrap"><span class="hero-place" id="hero-place">Texas.</span></div>
+        <div class="hero-line-too">A bond fund freeing immigrants <span class="hero-too-accent">is too.</span></div>
+      </div>
       <p class="intro">
-        Thousands of immigrants sit in ICE detention awaiting court hearings - and if granted, an ICE bond (often $5,000 to $20,000) allows them to return to their families and freely prepare their legal cases.
-        Grassroots bail funds run by non-profits around the nation pay these bonds for people who can't. Because bonds are returned when a case concludes, every dollar you give keeps working.
+        Thousands of immigrants sit in ICE detention awaiting court hearings — and if granted, an ICE bond allows them to freely prepare their legal cases. Grassroots non-profit bail funds pay bonds for people who can't.
       </p>
       <a href="#finder" class="hero-cta">Find a Fund to Support</a>
     </div>
@@ -58,9 +62,8 @@
        ============================================================ -->
   <section id="finder" aria-labelledby="qm-heading">
     <div class="qm-inner">
-      <p class="section-label">Quick Match</p>
       <h2 class="qm-heading" id="qm-heading">
-        Get someone <span class="qm-accent">out</span> right now.
+        Contribute funds to get someone <span class="qm-accent">out</span>.
       </h2>
 
       <div class="qm-actions">
@@ -75,9 +78,6 @@
       <!-- Random result -->
       <div class="qm-result-wrap" id="qm-result-random">
         <div class="qm-card" id="qm-card-random"></div>
-        <div class="qm-pick-another-wrap">
-          <button class="qm-pick-another-btn" id="btn-pick-another-random">Pick another &rarr;</button>
-        </div>
       </div>
 
       <!-- Texas result -->
@@ -88,9 +88,6 @@
           Bond funds here are under sustained pressure.
         </p>
         <div class="qm-card" id="qm-card-texas"></div>
-        <div class="qm-pick-another-wrap">
-          <button class="qm-pick-another-btn" id="btn-pick-another-texas">Pick another Texas fund &rarr;</button>
-        </div>
       </div>
     </div>
   </section>
@@ -125,6 +122,20 @@
       </div>
     </div>
   </div>
+
+  <!-- ============================================================
+       RECENT ICE ACTIVITY
+       ============================================================ -->
+  <section id="ice-activity" aria-labelledby="ice-activity-heading">
+    <div class="ice-activity-inner">
+      <p class="section-label">Recent Activity</p>
+      <h2 id="ice-activity-heading">Recent ICE Activity</h2>
+      <p class="ice-activity-intro">Recent enforcement activity — and a fund operating nearby.</p>
+      <div class="ice-activity-list" id="ice-activity-list">
+        <!-- populated by script.js after funds load -->
+      </div>
+    </div>
+  </section>
 
   <!-- ============================================================
        MAP DIRECTORY
