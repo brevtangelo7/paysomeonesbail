@@ -626,8 +626,8 @@
   function initHeroRotation(funds) {
     const seen = new Set();
     const places = funds
-      .map(f => f.area && f.area !== f.state ? f.area : (f.state || ''))
-      .filter(p => p && !seen.has(p) && seen.add(p))
+      .map(f => f.state || '')
+      .filter(p => p && p !== 'National' && !seen.has(p) && seen.add(p))
       .map(p => p + '.');
     if (!places.length) return;
 
